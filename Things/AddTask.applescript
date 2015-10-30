@@ -1,0 +1,1 @@
+(*	Adds a new task to Things. (For use with Alfredapp: alfredapp.com)	Syntax: #tag1 #tag2 task name [project name/area name] ::note >duedate*)on alfred_script(q)	tell application "Things" to set task to parse quicksilver input q	return (name of task)end alfred_script
