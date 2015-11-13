@@ -1,0 +1,11 @@
+# Converts any markdown file to html using
+# CommonMark (http://commonmark.org) and copies all tags with
+# tag (https://github.com/jdberry/tag/).
+IFS="	"
+files="{query}"
+for file in $files; do
+newfile="${file%.*}.rtf"
+/usr/local/bin/pandoc -r commonmark -w rtf -s -out "$newfile" "$file"
+tags=`/usr/local/bin/tag -N "$file"`
+/usr/local/bin/tag --set $tags "$newfile"
+done
