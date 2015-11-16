@@ -26,12 +26,12 @@ A collection of scripts to automate stuff on Max OS X systems.
 
 - Parameters:
 
-	- **SUBJ**: Subject line
-	- **TESNIP**: Abbreviation of a TextExpander snippet to use as content
-	- **RECEIPIENTS**: List of recipient mails
 	- **CC**: List of cc mails
+	- **TESNIP**: Abbreviation of a TextExpander snippet to use as content
 	- **BCC**: List of bcc mails
 	- **SENDR**: Sending account to use
+	- **SUBJ**: Subject line
+	- **RECEIPIENTS**: List of recipient mails
 
 
 ### Save attachments
@@ -71,12 +71,12 @@ A collection of scripts to automate stuff on Max OS X systems.
 
 - Parameters:
 
-	- **SUBJ**: Subject line
-	- **TESNIP**: Abbreviation of a TextExpander snippet to use as content
-	- **RECEIPIENTS**: List of recipient mails
 	- **CC**: List of cc mails
+	- **TESNIP**: Abbreviation of a TextExpander snippet to use as content
 	- **BCC**: List of bcc mails
 	- **SENDR**: Sending account to use
+	- **SUBJ**: Subject line
+	- **RECEIPIENTS**: List of recipient mails
 
 
 ### Save attachments
@@ -103,16 +103,11 @@ A collection of scripts to automate stuff on Max OS X systems.
 
 ## App Index
 
-- **Airmail 2**
-	- [Compose mail](#compose-mail)
-	- [Save attachments](#save-attachments)
-- **Alfred**
-	- [Set Caffeine state](#set-caffeine-state)
-	- [Show Caffeine state](#show-caffeine-state)
-- **Caffeine**
-	- [Set Caffeine state](#set-caffeine-state)
-	- [Show Caffeine state](#show-caffeine-state)
-- **Mail**
-	- [Compose mail](#compose-mail-1)
-	- [Save attachments](#save-attachments-1)
-	- [Vacuum Mail.app index](#vacuum-mailapp-index)
+- **Airmail 2**  
+	[Compose mail](#compose-mail), [Save attachments](#save-attachments)
+- **Alfred**  
+	[Set Caffeine state](#set-caffeine-state), [Show Caffeine state](#show-caffeine-state)
+- **Caffeine**  
+	[Set Caffeine state](#set-caffeine-state), [Show Caffeine state](#show-caffeine-state)
+- **Mail**  
+	[Compose mail](#compose-mail-1), [Save attachments](#save-attachments-1), [Vacuum Mail.app index](#vacuum-mailapp-index)

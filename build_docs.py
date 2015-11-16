@@ -139,8 +139,8 @@ for file, yml in iter(sorted(Y.items())):
 # Generate index
 T.write('\n## App Index\n\n')
 for app, files in iter(sorted(INDEX.items())):
-    T.write('- **%s**\n' % app)
-    for file in files:
-        T.write('\t- [%s](#%s)\n' % (Y[file]['name'], IDS[file]))
+    T.write('- **%s**  \n\t' % app)
+    T.write(', '.join(['[%s](#%s)' % (Y[file]['name'], IDS[file]) for file in files]))
+    T.write('\n')
 
 T.close()
