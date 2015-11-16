@@ -1,3 +1,10 @@
+(*
+name:           Show Caffeine state
+apps:           Caffeine, Alfred
+description:    Use in Alfred script filter to show Ceffeins state (active or inactive).
+parameters:
+compile:        false
+*)
 set theState to "inactive."
 tell application "Caffeine"
 	if active is true then

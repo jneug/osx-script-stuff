@@ -1,16 +1,24 @@
 (*
+name:           Vacuum Mail.app index
+apps:           Mail
+description:    Speed up Mail.app by vacuuming the Envelope Index
+parameters:
+compile:        true
+*)
+
+(*
 Speed up Mail.app by vacuuming the Envelope Index
 Code from: http://www.hawkwings.net/2007/03/03/scripts-to-automate-the-mailapp-envelope-speed-trick/
 Originally by "pmbuko" with modifications by Romulo
 Updated by Brett Terpstra 2012
-Updated by Mathias Tšrnblom 2015 to support V3 in El Capitan and still keep backwards compability
+Updated by Mathias TÃ¶rnblom 2015 to support V3 in El Capitan and still keep backwards compability
 *)
 
 tell application "Mail" to quit
 set os_version to do shell script "sw_vers -productVersion"
 set mail_version to "V2"
 considering numeric strings
-	if "10.10" ² os_version then set mail_version to "V3"
+    if "10.10" <= os_version then set mail_version to "V3"
 end considering
 
 set sizeBefore to do shell script "ls -lnah ~/Library/Mail/" & mail_version & "/MailData | grep -E 'Envelope Index$' | awk {'print $5'}"

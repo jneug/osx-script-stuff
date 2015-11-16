@@ -1,8 +1,12 @@
 (*
-	Use as a script in Airmail rules to save attachments to
-	folder DOWNLOADS.
+name:           Save attachments
+apps:           Airmail 2
+description:    Use as a script in Airmail rules to save attachments to the selected folder.
+parameters:
+    DOWNLOADS:      Folder to save attachments to
+compile:        false
 *)
-property DOWNLOADS : "/Volumes/Hyrrokkin/Downloads"
+property DOWNLOADS : "~/Downloads"
 
 on processMessage(theMessage)
 	try

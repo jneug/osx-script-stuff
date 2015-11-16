@@ -1,3 +1,17 @@
+(*
+name:           Compose mail
+apps:           Mail
+description:    Quickly compose an email in Mail.app
+parameters:
+    SUBJ:           Subject line
+    SENDR:          Sending account to use
+    RECEIPIENTS:    List of recipient mails
+    CC:             List of cc mails
+    BCC:            List of bcc mails
+    TESNIP:         Abbreviation of a TextExpander snippet to use as content
+compile:        false
+*)
+
 -- Subject line
 property SUBJ : ""
 -- Sending account to use. Needs to be in the format "Name <Mail>" and
@@ -22,7 +36,7 @@ tell application "Mail"
 			end repeat
 		end tell
 	end if
-	
+
 	set newMail to make new outgoing message with properties {subject:SUBJ, sender:SENDR, content:SNIP, visible:true}
 	repeat with R in RECEIPIENTS
 		make new to recipient at end of newMail's to recipients with properties {name:"", address:R}
@@ -33,6 +47,6 @@ tell application "Mail"
 	repeat with B in BCC
 		make new bcc recipient at end of newMail's bcc recipients with properties {name:"", address:B}
 	end repeat
-	
+
 	activate
 end tell

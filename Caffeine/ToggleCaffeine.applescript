@@ -1,3 +1,10 @@
+(*
+name:           Set Caffeine state
+apps:           Caffeine, Alfred
+description:    Use as Alfred action to activate/deactibvate Caffeins or toggle the state.
+parameters:
+compile:        false
+*)
 on alfred_script(q)
 	if q is not in {"toggle", "deactivate", "activate"} then
 		set q to "toggle"

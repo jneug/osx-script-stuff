@@ -1,4 +1,14 @@
 (*
+name:           Save attachments
+apps:           Mail
+description:    Use as a script in Mail.app rules to save attachments to the selected folder.
+parameters:
+    DOWNLOADS:      Folder to save attachments to
+    TRASH_AFTER:    Set to true to trash the mail after saving the attachments
+compile:        false
+*)
+
+(*
 	Saves the mail attachments to DOWNLOADS.
 *)
 property DOWNLOADS : "/Volumes/Hyrrokkin/Downloads"
@@ -13,7 +23,7 @@ using terms from application "Mail"
 					repeat with aStuff in theStuff
 						save aStuff in POSIX file (DOWNLOADS & "/" & name of aStuff)
 					end repeat
-					
+
 					if TRASH_AFTER then delete aMail
 				end try
 			end repeat
