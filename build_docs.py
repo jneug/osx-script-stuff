@@ -1,20 +1,33 @@
 import os, glob, re, yaml
 from subprocess import call
 
-TARGET = 'README.md'
+GLOB = '**/*.*'         # Glob pattern to use for including files
+TARGET = 'README.md'    # Target file to generate
+TEMPLATE = '_README.md' # Template to include as a header
+MARKED = True           # Generate Marked compatible IDs
+DEBUG = True           # Print some more info for debugging
 
 TAGS = {
-    '.applescript': ['(*','*)'],
+    '.applescript': ['(*', '*)'],
     '.sh': ['# '],
-    '.py': ['# ']
+    '.py': ['# '],
+    '.js': ['/*', '*/']
 }
 APPS = {
     'Alfred': 'http://alfredapp.com',
     'TextExpander': 'https://smilesoftware.com/TextExpander/index.html',
-    'Airmail 2': 'http://airmailapp.com'
+    'Airmail 2': 'http://airmailapp.com',
+    'CommonMark': 'http://commonmark.org',
+    'Markdown': 'https://daringfireball.net/projects/markdown/',
+    'Tag': 'https://github.com/jdberry/tag/',
+    'Mail': 'https://www.apple.com/support/mac-apps/mail/',
+    'iTunes': 'https://www.apple.com/support/mac-apps/iTunes/'
 }
 COMPILER = {
-    '.applescript': 'osacompile -x -o %s.scpt %s'
+    '.applescript': {
+        'call': 'osacompile -x -o %s %s',
+        'filename': '%s.scpt'
+    }
 }
 
 def parseBlockComment(file, tagOpen, tagClose):
@@ -36,6 +49,9 @@ def parseLineComment(file, tag):
     f = open(file, 'r')
     try:
         line = f.readline()
+        # Deal with shebangs
+        if line.startswith('#!'):
+            line = f.readline()
         if line.startswith(tag):
             yml += line[len(tag):]
             for line in f:
@@ -55,14 +71,19 @@ def makeId(label):
     __id = _id
     i = 1
     while _id in _IDS:
-        _id = '%s-%s' % (__id, i)
+        if MARKED:
+            if i == 1:
+                i = 2
+            _id = '%s%s' % (__id, i)
+        else:
+            _id = '%s-%s' % (__id, i)
         i += 1
     _IDS.append(_id)
     return _id
 
 Y = {}
 IDS = {}
-files = glob.glob('**/*.*')
+files = glob.glob(GLOB)
 for file in files:
     name, ext = os.path.splitext(file)
 
@@ -79,28 +100,37 @@ for file in files:
                 if 'name' in yml and 'description' in yml:
                     Y[file] = yml
                     IDS[file] = makeId(yml['name'])
-            except:
+            except Exception as e:
+                if DEBUG:
+                    print('\x1b[0;31m>\x1b[0m couldn\'t parse frontmatter for \x1b[0;35m%s\x1b[0m' % file)
+                    print('\x1b[0;31m=>\x1b[0m %s' % e)
                 pass
+    else:
+        if DEBUG:
+            print('\x1b[0;31m>\x1b[0m skipped \x1b[0;35m%s\x1b[0m, extension \x1b[0;35m%s\x1b[0m not registered' % (file, ext))
 
 T = open(TARGET, 'w')
 
 INDEX = {}
 
 # Generate header
-header = open('_README.md').read();
+header = open(TEMPLATE).read();
 T.write(header);
 T.write('\n\n')
-print('\x1b[0;32m>\x1b[0m Added headers from \x1b[0;35m_README.md\x1b[0m to documentation')
+print('\x1b[0;32m>\x1b[0m Added headers from \x1b[0;35m%s\x1b[0m to documentation' % TEMPLATE)
 
 # Generate TOC
 T.write('## Table of contents\n\n')
 T.write('1. [Scripts](#scripts)\n')
 for file, yml in iter(sorted(Y.items())):
     T.write('\t- [%s](#%s)\n' % (yml['name'], IDS[file]))
-T.write('1. [App Index](#app-index)\n')
+T.write('2. [App Index](#app-index)\n')
+T.write('3. [Script Index](#script-index)\n')
+T.write('\n')
+print('\x1b[0;32m>\x1b[0m Created table of contents')
 
 # Generate docs
-T.write('\n## Scripts\n\n')
+T.write('## Scripts\n\n')
 for file, yml in iter(sorted(Y.items())):
     def make_link(app):
         if app in APPS:
@@ -116,31 +146,48 @@ for file, yml in iter(sorted(Y.items())):
     apps = map(make_link, apps)
 
     T.write('### %s\n' % yml['name'])
-    T.write('- File: [_%s_](./%s)\n' % (file, file))
-    T.write('- Apps: %s\n\n' % ', '.join(apps))
-    T.write('> %s\n\n' % yml['description'])
+    T.write('%s\n\n' % yml['description'])
 
+    T.write('- Apps: %s\n' % ', '.join(apps))
+    T.write('- File: [_%s_](./%s)\n' % (file, file))
     if 'parameters' in yml and not yml['parameters'] == None and len(yml['parameters']) > 0:
-        T.write('\n- Parameters:\n\n')
+        T.write('- Parameters:\n')
         for param, descr in yml['parameters'].items():
             # T.write('- **%s**  \n\t%s\n' % (param, descr))
             T.write('\t- **%s**: %s\n' % (param, descr))
-
-    T.write('\n\n')
 
     print('\x1b[0;32m>\x1b[0m Added \x1b[0;35m%s\x1b[0m to documentation' % file)
 
     name, ext = os.path.splitext(file)
     if 'compile' in yml and yml['compile'] == True and ext in COMPILER:
-        call(COMPILER[ext] % (name, file), shell=True)
-        print('\x1b[0;32m->\x1b[0m Created binary for \x1b[0;35m%s\x1b[0m' % file)
+        newfile = COMPILER[ext]['filename'] % name
+        call(COMPILER[ext]['call'] % (newfile, file), shell=True)
+        T.write('- Binary: [_%s_](./%s)\n' % (newfile,newfile))
 
+        print('\x1b[0;32m=>\x1b[0m Created binary at \x1b[0;35m%s\x1b[0m' % newfile)
+
+    T.write('\n\n')
 
 # Generate index
-T.write('\n## App Index\n\n')
+T.write('## App Index\n\n')
 for app, files in iter(sorted(INDEX.items())):
     T.write('- **%s**  \n\t' % app)
     T.write(', '.join(['[%s](#%s)' % (Y[file]['name'], IDS[file]) for file in files]))
     T.write('\n')
+T.write('\n')
+print('\x1b[0;32m>\x1b[0m Created application index')
+
+# Generate alphabetical script index
+lastChar = ''
+T.write('## Script Index\n\n')
+for file, yml in iter(sorted(Y.items(), key=lambda x: x[1]['name'])):
+    if not yml['name'][0:1] == lastChar:
+        lastChar = yml['name'][0:1].upper()
+        T.write('\n- **%s**  \n\t' % lastChar)
+        T.write('[%s](#%s)' % (yml['name'], IDS[file]))
+    else:
+        T.write(', [%s](#%s)' % (yml['name'], IDS[file]))
+T.write('\n')
+print('\x1b[0;32m>\x1b[0m Created script index')
 
 T.close()
