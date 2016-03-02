@@ -1,7 +1,10 @@
 (*
 name:           Set Caffeine state
 apps:           Caffeine, Alfred
-description:    Use as Alfred action to activate/deactibvate Caffeins or toggle the state.
+description: >
+                Use as Alfred action to activate/deactivate
+                Caffein or toggle the state. Pass 'activate',
+                'deactivate' or 'toggle' to the action.
 parameters:
 compile:        false
 *)

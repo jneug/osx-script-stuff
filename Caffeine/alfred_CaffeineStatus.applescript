@@ -1,7 +1,9 @@
 (*
 name:           Show Caffeine state
 apps:           Caffeine, Alfred
-description:    Use in Alfred script filter to show Ceffeins state (active or inactive).
+description: >
+                Use in Alfred script filter to show Caffeins
+                state (active or inactive) in the action item.
 parameters:
 compile:        false
 *)
