@@ -1,21 +1,36 @@
 (*
-	Sorts pics from a particular album into weekly albums relative to a
-	target date based on the image date.
+name:           Group pictures by week
+apps:           Photos
+description: >
+                Sorts pics from a particular album into weekly albums relative
+                to a target date based on the image date.
 
-	The script will sort every media item from SOURCE_ALBUM album into child albums of
-	the TARGET_FOLDER by calculating how many weeks after TARGET_DATE it was taken.
-	The resulting folder structure will be:
+                The script will sort every media item from `SOURCE_ALBUM` album
+                into child albums of the TARGET_FOLDER by calculating how many
+                weeks after `TARGET_DATE` it was taken.
 
-	TARGET_FOLDER
-		ZERO_ALBUM
-		WEEKLY_PREFIX 1
-		WEEKLY_PREFIX 2
-		WEEKLY_PREFIX 3
-		...
+                The resulting folder structure will be:
+
+                ```
+                TARGET_FOLDER
+                    ZERO_ALBUM
+                    WEEKLY_PREFIX 1
+                    WEEKLY_PREFIX 2
+                    WEEKLY_PREFIX 3
+                    ...
+                ```
+parameters:
+    TARGET_DATE:    "Set to the target date."
+    SOURCE_ALBUM:   "Set to the album with the unsorted pics. If it is a subfolder use a path like string."
+    TARGET_FOLDER:  "Set to the target folder for the weekly albums. This folder will be the parent of the weekly albums."
+    ZERO_ALBUM:     "Set to the album for pictures without a date or with a date before the target date."
+    WEEKLY_PREFIX:  "Set to a prefix for the weekly albums."
+    DISPLAY_DIALOG: "Set to true to display a summary dialog after everything is sorted."
+compile:        false
 *)
 
 -- Set to the target date
-property TARGET_DATE : date "Dienstag, 22. Juli 2014 02:06:00"
+property TARGET_DATE : date "Dienstag, 22. Juli 2014 um 02:06:00"
 -- Set to the album with the unsorted pics. If it is a subfolder use a path like string.
 property SOURCE_ALBUM : "#Unsortiert/Linus Neu"
 -- Set to the target folder for the weekly albums. This folder will be the parent of the weekly albums.
