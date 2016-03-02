@@ -1,6 +1,12 @@
-# Converts any markdown file to html using
-# CommonMark (http://commonmark.org) and copies all tags with
-# tag (https://github.com/jdberry/tag/).
+#!/usr/bin/env bash
+# name:           Compile CommonMark to RTF
+# apps:           Alfred, CommonMark, Markdown, Tag
+# description: >
+#                 Converts any markdown file to rich text using
+#                 CommonMark (http://commonmark.org) and copies all tags with
+#                 tag (https://github.com/jdberry/tag/).
+# parameters:
+
 IFS="	"
 files="{query}"
 for file in $files; do
