@@ -11,6 +11,8 @@ TAGS=($(/usr/local/bin/exiftool -s3 -f -Artist -Band -Album -Title -Track -PartO
 TITLE=${TAGS[3]}
 TRACK=${TAGS[4]/\/*/}
 if [ "$TRACK" != "-" ] ; then
+    # Zero-pad track number to two digits
+    TRACK=`printf "%02s\n" "$TRACK"`
     # if number of cds is set, check if > 1
     if [[ ${TAGS[5]} == *"/"* ]] ; then
         TOTAL="${TAGS[5]/*\//}"
