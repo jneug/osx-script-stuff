@@ -11,7 +11,7 @@ property DOWNLOADS : "~/Downloads"
 on processMessage(theMessage)
 	try
 		tell application "Airmail 3"
-			repeat with anAttach in mail attachment of theMessage
+			repeat with anAttach in mail attachments of theMessage
 				set aFilename to filename of anAttach
 				set aFile to quoted form of POSIX path of aFilename
 				do shell script "cp " & aFile & " " & DOWNLOADS
