@@ -13,8 +13,10 @@ on processMessage(theMessage)
 		tell application "Airmail 3"
 			repeat with anAttach in mail attachments of theMessage
 				set aFilename to filename of anAttach
-				set aFile to quoted form of POSIX path of aFilename
-				do shell script "cp " & aFile & " " & DOWNLOADS
+				set aFile to quoted form of aFilename
+				set fldr to quoted form of DOWNLOADS
+				
+				do shell script "cp " & (aFile as text) & " " & (fldr as text) & ""
 			end repeat
 		end tell
 	end try
