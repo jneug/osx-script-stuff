@@ -11,21 +11,21 @@ compile:        false
 (*
 	Saves the mail attachments to DOWNLOADS.
 *)
-property DOWNLOADS : "/Volumes/Hyrrokkin/Downloads"
+property DOWNLOADS : "~/Downloads"
 property TRASH_AFTER : false
 
 using terms from application "Mail"
-	on perform mail action with messages theMails for rule theRule
+	on perform mail action with messages theMessages for rule theRule
 		tell application "Mail"
-			repeat with aMail in theMails
-				try
-					set theStuff to every mail attachment of aMail
-					repeat with aStuff in theStuff
-						save aStuff in POSIX file (DOWNLOADS & "/" & name of aStuff)
-					end repeat
-
-					if TRASH_AFTER then delete aMail
-				end try
+			repeat with theMessage in theMessages
+				repeat with theAttachment in mail attachments of theMessage
+					try
+						set theFile to DOWNLOADS & "/" & (name of theAttachment)
+						tell theAttachment to save in theFile
+					end try
+				end repeat
+				
+				if TRASH_AFTER then delete aMail
 			end repeat
 		end tell
 	end perform mail action with messages
