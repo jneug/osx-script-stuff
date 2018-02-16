@@ -1,15 +1,11 @@
 (*
-name:           Save attachments
+name:           Save mail attachments to a folder
 apps:           Mail
-description:    Use as a script in Mail.app rules to save attachments to the selected folder.
+description:    Use as a script in Mail.app rules to save attachments to a folder.
 parameters:
     DOWNLOADS:      Folder to save attachments to
     TRASH_AFTER:    Set to true to trash the mail after saving the attachments
 compile:        false
-*)
-
-(*
-	Saves the mail attachments to DOWNLOADS.
 *)
 property DOWNLOADS : "~/Downloads"
 property TRASH_AFTER : false
